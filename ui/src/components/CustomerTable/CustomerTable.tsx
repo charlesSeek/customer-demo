@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Table } from "antd";
 import { useCustomers } from '../../hooks/useCustomers'
 
-const API_URL = 'https://zbqkw071ce.execute-api.ap-southeast-2.amazonaws.com/dev'
+const API_URL = process.env.REACT_APP_API_URL || 'https://zbqkw071ce.execute-api.ap-southeast-2.amazonaws.com/dev'
 
 const CustomerTable: React.FC = () => {
   const { state, dispatch } = useCustomers();
