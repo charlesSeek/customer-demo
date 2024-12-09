@@ -25,6 +25,7 @@ we use terraform to manage and deploy aws service, including S3, API Gateway, La
 ## Instruction
 
 ### Backend
+```bash
 $ cd api    
 $ yarn
 $ yarn test       # run api unit tests
@@ -43,6 +44,7 @@ https://zbqkw071ce.execute-api.ap-southeast-2.amazonaws.com/dev/customers?pageSi
 - endDate: string(YYYY-MM-DD), like '2024-12-10'
 
 ### Frontend
+```bash
 $ cd ui
 $ yarn
 $ yarn test       # run api unit tests
