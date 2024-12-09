@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { useCustomers } from '../../hooks/useCustomers'
+import { Spin } from 'antd';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://zbqkw071ce.execute-api.ap-southeast-2.amazonaws.com/dev'
 
 const CustomerTable: React.FC = () => {
+  const [loading, setLoading ] = useState(false);
   const { state, dispatch } = useCustomers();
   const { customers, search, startDate, endDate, pageSize, page, order } = state;
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        // Replace this URL with your actual API endpoint
+        setLoading(true)
         const response = await fetch(
           `${API_URL}/customers?page=${page}&pageSize=${pageSize}&order=${order}&search=${search}&startDate=${startDate}&endDate=${endDate}`
         );
@@ -25,12 +27,12 @@ const CustomerTable: React.FC = () => {
       } catch (err: any) {
         console.error(err);
       } finally {
-        // setLoading(false);
+        setLoading(false);
       }
     };
-
     fetchCustomers();
-  }, [page, pageSize, order, search, startDate, endDate, dispatch]);
+    
+  }, [page, pageSize, order, search, startDate, endDate, dispatch, setLoading]);
   const columns = [
     {
       title: "Customer ID",
@@ -53,6 +55,13 @@ const CustomerTable: React.FC = () => {
       key: "registrationDate",
     },
   ];
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: 24 }}>
