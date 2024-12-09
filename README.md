@@ -35,6 +35,7 @@ $ terraform apply # deploy aws service
 **API endpoint**
 https://zbqkw071ce.execute-api.ap-southeast-2.amazonaws.com/dev/customers?pageSize=10&page=0
 
+- search: search term
 - pageSize: number
 - page: number, from 0
 - order: desc or acs
