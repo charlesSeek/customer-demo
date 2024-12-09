@@ -135,6 +135,64 @@ resource "aws_lambda_permission" "api_gw" {
   source_arn = "${aws_apigatewayv2_api.customer_api.execution_arn}/*/*"
 }
 
+resource "aws_s3_bucket" "customers" {
+  bucket = "customers-${random_id.bucket_id.hex}"
+  acl    = "public-read"
+
+  tags = {
+    Name        = "customers bucket"
+    Environment = "dev"
+  }
+}
+
+resource "aws_s3_bucket_website_configuration" "react-confg" {
+  bucket = aws_s3_bucket.customers.id
+
+  index_document {
+    suffix = "index.html"
+  }
+}
+
+resource "aws_s3_bucket_ownership_controls" "bucket-ownership" {
+  bucket = aws_s3_bucket.customers.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "bucket-public-access" {
+  bucket = aws_s3_bucket.customers.id
+
+  block_public_acls = false
+  block_public_policy = false
+  ignore_public_acls = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_acl" "bucket-acl" {
+  bucket = aws_s3_bucket.customers.id
+
+  acl = "public-read"
+
+}
+
+resource "aws_s3_bucket_policy" "bucket-policy" {
+  bucket = aws_s3_bucket.customers.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action    = ["s3:GetObject"],
+        Effect    = "Allow",
+        Principal = "*",
+        Resource  = "${aws_s3_bucket.customers.arn}/*"
+      },
+    ]
+  })
+}
+
 output "api_url" {
   value = aws_apigatewayv2_stage.customer_api_stage.invoke_url
 }
