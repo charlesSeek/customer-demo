@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Filter from './Filter';
 import userEvent from '@testing-library/user-event';
 import { AppStateContext, initialState } from '../../hooks/useCustomers';
@@ -41,6 +41,26 @@ describe('Sorter Component', () => {
     userEvent.type(input, 'test');
     expect(mockDispatch).toHaveBeenCalledWith({ type: 'SET_SEARCH', payload: 'test' });
     expect(mockDispatch).toHaveBeenCalledWith({ type: 'SET_PAGE', payload: 0 });
+  });
+
+  it('should handle date change correctly', async () => {
+    
+    render(
+      <AppStateContext.Provider value = { mockProviderProps}>
+        <Filter />
+      </AppStateContext.Provider>
+    );
+  
+    const startDateInput = screen.getByPlaceholderText('Start date');
+    const endDateInput = screen.getByPlaceholderText('End date');
+    await userEvent.type(startDateInput, '2024-12-01');
+    userEvent.tab();
+    await userEvent.type(endDateInput, '2024-12-10');
+    userEvent.tab();
+    
+    await waitFor(() => expect(mockDispatch).toHaveBeenCalledWith({ type: 'SET_PAGE', payload: 0}));
+    await waitFor(() => expect(mockDispatch).toHaveBeenCalledWith({ type: 'SET_START_DATE', payload: '2024-12-01'}));
+    await waitFor(() => expect(mockDispatch).toHaveBeenCalledWith({ type: 'SET_END_DATE', payload: '2024-12-10'}));
   });
 
 });
