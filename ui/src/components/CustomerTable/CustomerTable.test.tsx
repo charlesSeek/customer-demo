@@ -41,7 +41,20 @@ describe('CustomerTable', () => {
         </AppStateContext.Provider>
       );
       expect(await screen.findByTestId('spinner')).toBeInTheDocument();
-  })
+  });
+
+  it('should show error message when fetch data fail', async() => {
+    global.fetch = jest.fn().mockRejectedValueOnce({
+      message: 'error'
+    });
+    render(
+      <AppStateContext.Provider value = { mockProviderProps }>
+        <CustomerTable />
+      </AppStateContext.Provider>
+    );
+    await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(screen.findByText('Fetch customers fail, pleas try again.')))
+  });
 
   it('fetches customers and displays them in a table', async () => {
     render(
@@ -52,6 +65,5 @@ describe('CustomerTable', () => {
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(mockDispatch).toBeCalledTimes(1));
     expect(mockDispatch).toHaveBeenCalledWith({ type: 'SET_CUSTOMERS', payload: mockData });
-    
   });
 });
