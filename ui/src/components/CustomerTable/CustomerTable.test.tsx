@@ -53,7 +53,7 @@ describe('CustomerTable', () => {
       </AppStateContext.Provider>
     );
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(screen.findByText('Fetch customers fail, pleas try again.')))
+    expect(await screen.findByText('Fetch customers fail, pleas try again.')).toBeInTheDocument();
   });
 
   it('fetches customers and displays them in a table', async () => {
