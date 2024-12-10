@@ -21,7 +21,8 @@ const FilterComponent: React.FC = () => {
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: 'SET_SEARCH', payload: e.target.value.toLowerCase() })
+    dispatch({ type: 'SET_SEARCH', payload: e.target.value.toLowerCase() });
+    dispatch({ type: 'SET_PAGE', payload: 0 });
   }
 
   return (
@@ -34,7 +35,7 @@ const FilterComponent: React.FC = () => {
             onChange={handleSearch}
           />
         </Col>
-        <Col xs={24} sm={12} lg={12}>
+        <Col xs={24} sm={12} lg={8}>
           <RangePicker
             format="YYYY-MM-DD"
             onChange={handleRangeChange}

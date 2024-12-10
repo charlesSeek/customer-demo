@@ -1,9 +1,11 @@
 import React from 'react';
-import Filter from '../components/Filter/Filter';
-import Sorter from '../components/Sorter/Sorter';
-import CustomerTable from '../components/CustomerTable/CustomerTable';
-import Pagination from '../components/Pagination/CustomerPagination';
-import Summary from '../components/Summary/Summary';
+import { 
+  Filter,
+  Sorter,
+  CustomerTable,
+  CustomerPagination,
+  Summary
+} from '../components/';
 import { Space, Divider } from 'antd';
 import { useCustomers } from '../hooks/useCustomers';
 
@@ -16,7 +18,7 @@ const Home = () => {
       <Sorter />
       <Summary total={total} totalPage={totalPage} pageSize={pageSize}/>
       <CustomerTable />
-      <Pagination />
+      <CustomerPagination />
     </Space>
   )
 }

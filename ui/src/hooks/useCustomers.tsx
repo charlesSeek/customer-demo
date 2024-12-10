@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useReducer, ReactNode } from "react";
-import { CustomerContextState, Customer } from '../types';
+import { CustomerContextState } from '../types';
 import { format } from 'date-fns';
+import { Action } from '../types'
 
 const now = format(new Date(), "yyyy-MM-dd");
 
@@ -19,15 +20,6 @@ export const initialState: CustomerContextState = {
 interface AppStateProviderProps {
   children: ReactNode;
 }
-
-export type Action =
-  | { type: "SET_CUSTOMERS"; payload: {items: Customer[], total: number, totalPage: number} }
-  | { type: "SET_SEARCH"; payload: string }
-  | { type: "SET_START_DATE"; payload: string }
-  | { type: "SET_END_DATE"; payload: string }
-  | { type: "SET_PAGE_SIZE"; payload: number }
-  | { type: "SET_PAGE"; payload: number }
-  | { type: "SET_ORDER"; payload: string };
 
 export const customerReducer = (state: CustomerContextState, action: Action): CustomerContextState => {
   switch (action.type) {

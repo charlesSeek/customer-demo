@@ -27,11 +27,15 @@ const Sorter: React.FC = () => {
         <Text strong>Order:</Text>
         <Select
           value={order}
-          style={{ width: 120, marginLeft: 8 }}
           onChange={handleOrderChange}
+          data-testid="order-select"
         >
           <Option value="asc">Ascending</Option>
-          <Option value="desc">Descending</Option>
+          <Option 
+            value="desc" 
+          >
+            Descending
+          </Option>
         </Select>
       </Col>
 
@@ -40,8 +44,8 @@ const Sorter: React.FC = () => {
         <Text strong>Page Size:</Text>
         <Select
           value={pageSize}
-          style={{ width: 120, marginLeft: 8 }}
           onChange={handlePageSizeChange}
+          data-testid="page-size-select"
         >
           <Option value={5}>5</Option>
           <Option value={10}>10</Option>

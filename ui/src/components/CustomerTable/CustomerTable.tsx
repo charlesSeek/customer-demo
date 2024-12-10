@@ -58,7 +58,7 @@ const CustomerTable: React.FC = () => {
   if (loading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-        <Spin size="large" />
+        <Spin size="large" data-testid="spinner"/>
       </div>
     );
   }
